@@ -4,6 +4,7 @@ import express from 'express'
 import morgan from 'morgan'
 import equiposRoutes from './routes/equipos.js'
 import partidosRoutes from './routes/partidos.js'
+import authRoutes from './routes/usuarios.js'
 
 dotenv.config()
 
@@ -15,5 +16,6 @@ app.use(express.json())
 
 app.use('/', equiposRoutes)
 app.use('/', partidosRoutes)
+app.use('/', authRoutes)
 
 export default app
