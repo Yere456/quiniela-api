@@ -16,3 +16,12 @@ export async function createEquipo (req, res) {
     console.error(error)
   }
 }
+
+export async function getEquipos (req, res) {
+  try {
+    const equipos = await Equipos.find()
+    return res.status(200).send(equipos)
+  } catch (error) {
+    console.error(error)
+  }
+}
