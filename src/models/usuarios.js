@@ -1,4 +1,4 @@
-import bcrypt from 'bcryptjs'
+import bcrypt from 'bcrypt'
 import mongoose from 'mongoose'
 
 const usuariosSchema = new mongoose.Schema(
@@ -35,8 +35,8 @@ usuariosSchema.statics.encryptPassword = async (password) => {
   return await bcrypt.hash(password, salt)
 }
 
-usuariosSchema.statics.comparePassword = async (password, receivedPassword) => {
-  return await bcrypt.compare(password, receivedPassword)
+usuariosSchema.statics.comparePassword = async (password, candidatePassword) => {
+  return await bcrypt.compare(password, candidatePassword)
 }
 
 usuariosSchema.pre('save', async function (next) {

@@ -15,23 +15,24 @@ export const signupHandler = async (req, res) => {
     // Saving the User Object in Mongodb
     const savedUser = await newUser.save()
 
-    return res.status(200).json({ savedUser })
+    return res.status(200).send(savedUser)
   } catch (error) {
-    return res.status(500).json(error.message)
+    console.error(error)
+    console.log(req.body)
+    return res.status(400).send(error.message)
   }
 }
 
 export const signinHandler = async (req, res) => {
   try {
+    const { email, password } = req.body
     // Request body email can be an email or username
-    const userFound = await Usuarios.findOne({ email: req.body.email }).populate(
-      'roles'
-    )
+    const userFound = await Usuarios.findOne({ email })
 
     if (!userFound) return res.status(400).json({ message: 'User Not Found' })
 
     const matchPassword = await Usuarios.comparePassword(
-      req.body.password,
+      password,
       userFound.password
     )
 
@@ -41,8 +42,9 @@ export const signinHandler = async (req, res) => {
       })
     }
 
-    res.json({ userFound })
+    res.status(200).send(userFound)
   } catch (error) {
     console.log(error)
+    return res.status(400).send(error)
   }
 }
