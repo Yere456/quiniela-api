@@ -1,4 +1,7 @@
+import dotenv from 'dotenv'
 import app from './app.js'
 import './db.js'
 
-app.listen(3000, () => console.log('corriendo'))
+dotenv.config()
+
+app.listen(process.env.PORT, () => console.log('corriendo'))
