@@ -48,3 +48,33 @@ export const signinHandler = async (req, res) => {
     return res.status(400).send(error)
   }
 }
+export async function getUsuarios (req, res) {
+  try {
+    const usuarios = await Usuarios.find()
+
+    return res.status(200).send(usuarios)
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+export async function getUsuario (req, res) {
+  try {
+    const usuario = await Usuarios.findById(req.params.id)
+
+    return res.status(200).send(usuario)
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+export async function updateUsuario (req, res) {
+  try {
+    const user = await Usuarios.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    console.log(req.body, req.params.id, user)
+    return res.status(200).send(user)
+  } catch (error) {
+    console.error(error)
+    return res.status(500).send(error)
+  }
+}

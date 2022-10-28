@@ -1,9 +1,12 @@
 import { Router } from 'express'
-import { signinHandler, signupHandler } from '../controllers/usuarios.js'
+import { getUsuario, getUsuarios, signinHandler, signupHandler, updateUsuario } from '../controllers/usuarios.js'
 
 const router = Router()
 
 router.post('/api/login', signinHandler)
 router.post('/api/register', signupHandler)
+router.get('/api/usuarios', getUsuarios)
+router.get('/api/usuarios/:id', getUsuario)
+router.put('/api/usuarios/:id', updateUsuario)
 
 export default router

@@ -33,4 +33,12 @@ const partidosSchema = new mongoose.Schema(
 )
 partidosSchema.plugin(autopopulate)
 
+partidosSchema.statics.updatePuntos = async () => {
+
+}
+
+partidosSchema.pre('update', async function (next) {
+  next()
+})
+
 export default mongoose.model('Partidos', partidosSchema)

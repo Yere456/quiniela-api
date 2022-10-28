@@ -1,5 +1,7 @@
 import Equipo from '../models/equipo.js'
 import Partido from '../models/partidos.js'
+import Pronostico from '../models/pronostico.js'
+import Usuario from '../models/usuarios.js'
 
 export async function updatePartido (req, res) {
   try {
@@ -10,6 +12,29 @@ export async function updatePartido (req, res) {
       golesVisita,
       status
     }, { new: true })
+
+    const apuestas = await Pronostico.find({ partido: req.params.id })
+
+    // eslint-disable-next-line array-callback-return
+    apuestas.map(apuesta => {
+      async function a () {
+        const user = await Usuario.findById(apuesta.usuario._id)
+        const apuestaUsuarioLocal = apuesta.golesLocal
+        const apuestaUsuarioVisita = apuesta.golesVisita
+
+        if (apuestaUsuarioLocal === partidoUpdate.golesLocal && apuestaUsuarioVisita === partidoUpdate.golesVisita) {
+          user.puntos += 3
+          await user.save()
+          return
+        }
+
+        if (apuestaUsuarioLocal === partidoUpdate.golesLocal || apuestaUsuarioVisita === partidoUpdate.golesVisita) {
+          user.puntos += 1
+          await user.save()
+        }
+      }
+      a()
+    })
 
     return res.status(200).send(partidoUpdate)
   } catch (error) {
@@ -29,9 +54,9 @@ export async function createPartido (req, res) {
       equipoVisita: visita._id
     })
 
-    await partido.save()
+    const partidoCreated = await partido.save()
 
-    return res.status(201)
+    return res.status(200).send(partidoCreated)
   } catch (error) {
     console.error(error)
   }
