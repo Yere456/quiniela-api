@@ -40,9 +40,21 @@ export async function updatePronostico (req, res) {
 
 export async function getPronosticos (req, res) {
   try {
-    const pronosticos = await Pronostico.find({ _id: req.body.pronosticos })
+    const usuario = await Usuario.findById(req.params.id)
+    const pronosticos = await Pronostico.find({ _id: usuario.pronosticos })
 
     return res.status(200).send(pronosticos)
+  } catch (error) {
+    console.error(error)
+    return res.status(500).send(error)
+  }
+}
+
+export async function getPronostico (req, res) {
+  try {
+    const pronostico = await Pronostico.findById(req.params.id)
+
+    return res.status(200).send(pronostico)
   } catch (error) {
     console.error(error)
     return res.status(500).send(error)
