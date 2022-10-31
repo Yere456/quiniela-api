@@ -10,8 +10,7 @@ const pronosticoSchema = new mongoose.Schema(
     },
     usuario: {
       type: Schema.Types.ObjectId,
-      ref: 'Usuarios',
-      autopopulate: true
+      ref: 'Usuarios'
     },
     golesLocal: {
       type: Number,

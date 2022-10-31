@@ -7,6 +7,13 @@ const usuariosSchema = new mongoose.Schema(
       type: String,
       unique: true
     },
+    pronosticos: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Pronosticos',
+        autopopulate: true
+      }
+    ],
     email: {
       type: String,
       unique: true
