@@ -18,9 +18,7 @@ export async function createPronostico (req, res) {
 
     const savedPronostico = await pronostico.save()
 
-    usuario.pronosticos.push(savedPronostico._id)
-
-    await usuario.save()
+    // await usuario.save()
     return res.status(200).send(savedPronostico)
   } catch (error) {
     return res.status(500).send(error)
@@ -29,7 +27,9 @@ export async function createPronostico (req, res) {
 
 export async function updatePronostico (req, res) {
   try {
-    const updatedPronostico = await Pronostico.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    const { golesLocal, golesVisita } = req.body
+    const { id } = req.params
+    const updatedPronostico = await Pronostico.findByIdAndUpdate(id, { golesLocal, golesVisita }, { new: true })
 
     return res.status(200).send(updatedPronostico)
   } catch (error) {
@@ -38,10 +38,9 @@ export async function updatePronostico (req, res) {
   }
 }
 
-export async function getPronosticos (req, res) {
+export async function pronosticos (req, res) {
   try {
-    const usuario = await Usuario.findById(req.params.id)
-    const pronosticos = await Pronostico.find({ _id: usuario.pronosticos })
+    const pronosticos = await Pronostico.find()
 
     return res.status(200).send(pronosticos)
   } catch (error) {

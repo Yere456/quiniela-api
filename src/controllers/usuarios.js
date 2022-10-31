@@ -12,7 +12,6 @@ export const signupHandler = async (req, res) => {
       imagen
     })
 
-    // Saving the User Object in Mongodb
     const savedUser = await newUser.save()
 
     return res.status(200).send(savedUser)
@@ -26,7 +25,7 @@ export const signupHandler = async (req, res) => {
 export const signinHandler = async (req, res) => {
   try {
     const { email, password } = req.body
-    // Request body email can be an email or username
+
     const userFound = await Usuarios.findOne({ email })
 
     if (!userFound) return res.status(400).json({ message: 'User Not Found' })
@@ -71,7 +70,7 @@ export async function getUsuario (req, res) {
 export async function updateUsuario (req, res) {
   try {
     const user = await Usuarios.findByIdAndUpdate(req.params.id, req.body, { new: true })
-    console.log(req.body, req.params.id, user)
+
     return res.status(200).send(user)
   } catch (error) {
     console.error(error)
