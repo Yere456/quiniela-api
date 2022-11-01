@@ -6,6 +6,12 @@ export async function createPronostico (req, res) {
   try {
     const { idPartido, idUsuario, golesLocal, golesVisita } = req.body
 
+    const existPartido = await Pronostico.findOne({ usuario: idUsuario, partido: idPartido })
+
+    console.log(existPartido)
+
+    if (existPartido) return res.status(401).send('Ya apostaste a este')
+
     const partido = await Partido.findById(idPartido)
     const usuario = await Usuario.findById(idUsuario)
 

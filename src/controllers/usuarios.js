@@ -17,7 +17,6 @@ export const signupHandler = async (req, res) => {
     return res.status(200).send(savedUser)
   } catch (error) {
     console.error(error)
-    console.log(req.body)
     return res.status(400).send(error.message)
   }
 }
@@ -28,7 +27,7 @@ export const signinHandler = async (req, res) => {
 
     const userFound = await Usuarios.findOne({ email })
 
-    if (!userFound) return res.status(400).json({ message: 'User Not Found' })
+    if (!userFound) return res.status(404).json({ message: 'User Not Found' })
 
     const matchPassword = await Usuarios.comparePassword(
       password,
@@ -44,7 +43,7 @@ export const signinHandler = async (req, res) => {
     res.status(200).send(userFound)
   } catch (error) {
     console.log(error)
-    return res.status(400).send(error)
+    return res.status(500).send(error)
   }
 }
 export async function getUsuarios (req, res) {
