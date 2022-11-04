@@ -1,16 +1,19 @@
 import Usuarios from '../models/usuarios.js'
+import { uploadImage } from '../utils/cloudinary.js'
 
 export const signupHandler = async (req, res) => {
   try {
     const { username, email, password, imagen } = req.body
-
-    // Creating a new User Object
     const newUser = new Usuarios({
       username,
       email,
-      password,
-      imagen
+      password
     })
+
+    if (imagen !== '') {
+      const img = await uploadImage(imagen)
+      newUser.imagen = img.secure_url
+    }
 
     const savedUser = await newUser.save()
 
@@ -68,9 +71,15 @@ export async function getUsuario (req, res) {
 
 export async function updateUsuario (req, res) {
   try {
-    const user = await Usuarios.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    const { username, imagen } = req.body
+    if (imagen !== '') {
+      const img = await uploadImage(req.body.imagen)
+      const userUpdated = await Usuarios.findByIdAndUpdate(req.params.id, { imagen: img.secure_url, username }, { new: true })
+      return res.status(200).send(userUpdated)
+    }
 
-    return res.status(200).send(user)
+    const userUpdated = await Usuarios.findByIdAndUpdate(req.params.id, { username }, { new: true })
+    return res.status(200).send(userUpdated)
   } catch (error) {
     console.error(error)
     return res.status(500).send(error)

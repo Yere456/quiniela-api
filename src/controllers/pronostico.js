@@ -24,7 +24,6 @@ export async function createPronostico (req, res) {
 
     const savedPronostico = await pronostico.save()
 
-    // await usuario.save()
     return res.status(200).send(savedPronostico)
   } catch (error) {
     return res.status(500).send(error)

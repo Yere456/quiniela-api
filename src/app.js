@@ -2,6 +2,7 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import express from 'express'
 import morgan from 'morgan'
+
 import equiposRoutes from './routes/equipos.js'
 import partidosRoutes from './routes/partidos.js'
 import pronosticoRoutes from './routes/pronostico.js'
